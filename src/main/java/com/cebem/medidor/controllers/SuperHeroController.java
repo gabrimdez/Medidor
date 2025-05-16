@@ -18,7 +18,10 @@ public class SuperHeroController {
     @GetMapping("/superhero")
     public String getSuperhero(Model model) {
         SuperheroCharacter character = superheroService.getSuperheroCharacter();
-
+        if (character == null || character.getImage() == null || character.getImage().getUrl() == null) {
+            // Intenta de nuevo con otro ID
+            character = superheroService.getSuperheroCharacter();
+        }
         model.addAttribute("hero", character);
         return "hero";
     }
