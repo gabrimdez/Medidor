@@ -1,11 +1,11 @@
-# Etapa de construcción
+# Etapa de construcción 
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 
-# Establece directorio de trabajo
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia el contenido del proyecto
-COPY . .
+# Copia solo el proyecto Maven que está en medidor/
+COPY medidor /app
 
 # Empaqueta el proyecto sin ejecutar tests
 RUN mvn clean package -DskipTests
@@ -22,5 +22,5 @@ EXPOSE 8080
 # Copia el JAR generado
 COPY --from=build /app/target/*.jar app.jar
 
-# Establece el comando para ejecutar el JAR
+# Ejecuta la aplicación
 ENTRYPOINT ["java", "-jar", "app.jar"]
